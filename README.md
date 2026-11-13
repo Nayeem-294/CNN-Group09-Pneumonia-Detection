@@ -69,6 +69,41 @@ Main findings from our exploratory analysis (Submission 1):
 
 All notebooks are saved **with their outputs** (plots, tables and reports), so the results can be read on GitHub without re-running them.
 
+
+
+## 3.1 What Was Done in Each Submission
+
+### Submission 1: Dataset Information, EDA and Related Work
+Notebook: `CNN_Group09_Submission1.ipynb`
+
+- **Dataset information:** downloaded the Kaggle *Chest X-Ray Images (Pneumonia)* dataset with the Kaggle API, documented its source, license (CC BY 4.0) and folder structure (`train`, `val`, `test`; classes `NORMAL`, `PNEUMONIA`).
+- **Class and split counts:** counted images per class and per split (5,856 images in total) and computed the class percentages in each split.
+- **Class imbalance:** showed that the training set is imbalanced (25.7% NORMAL vs 74.3% PNEUMONIA, ratio 2.89 : 1) and noted that the original validation folder has only 16 images.
+- **Image properties:** checked file formats (all JPEG), image sizes (width 384 to 2,916 px, height 127 to 2,713 px) and colour modes (5,573 grayscale and 283 RGB images), which motivates resizing to a fixed size and converting to 3 channels.
+- **Visual EDA:** plots of the class distribution and sample X-ray images of both classes.
+- **Related work:** a comparison table of **five peer-reviewed journal papers** (Stephen et al., Chouhan et al., Rahman et al., Kundu et al., Cha et al.) with their dataset, models, approach (preprocessing, augmentation, transfer learning, attention) and reported results.
+
+### Submission 2: Pretrained CNNs With and Without Fine-Tuning
+Notebooks: `CNN_Group09_Submission2_DenseNet121.ipynb`, `CNN_Group09_Submission2_ResNet50.ipynb`, `CNN_Group09_Submission2_MobileNetV2.ipynb`
+
+- **Three pretrained models** (DenseNet121, ResNet50, MobileNetV2) with ImageNet weights, each in its own notebook with identical code and settings, so they can be compared fairly.
+- **Data preparation:** stratified 15% validation split from the training folder (the original validation folder is too small), balanced class weights, resizing to 224 x 224 and data augmentation (flip, rotation, zoom, translation, brightness).
+- **Two modes per model, 40 epochs each:**
+  - *Without fine-tuning:* frozen backbone, only the new classification head is trained.
+  - *With fine-tuning:* the top 40% of the backbone layers are also trained with a small learning rate, BatchNorm layers kept frozen.
+- **Results reported for each mode:** accuracy and loss curves (train and validation), classification report, confusion matrix, accuracy, precision, recall, F1-score, AUC, a fit check for overfitting and underfitting, and training and testing time.
+- **Written observations** in each notebook comparing the two modes and discussing errors, the validation-test gap and (for MobileNetV2 and ResNet50) the comparison with the other models.
+
+### Submission 3: Custom CNN Trained From Scratch
+Notebook: `CNN_Group09_Submission3.ipynb`
+
+- **Custom architecture:** four convolutional blocks (32, 64, 128, 256 filters), each with two `Conv2D + BatchNorm + ReLU` layers and max pooling, then global average pooling, a 128-unit dense layer, dropout 0.4 and a sigmoid output (about 1.21 million parameters, no pretrained weights).
+- **Same pipeline as Submission 2:** the same data split, class weights, preprocessing, augmentation, batch size, optimiser and learning rate, so the result is directly comparable with the pretrained models.
+- **Early stopping:** on the validation loss with patience 7, active only after the first 5 epochs (minimum 5 epochs), best weights restored. Training stopped after 25 of at most 50 epochs, and the weights of epoch 18 were used.
+- **Results reported:** training and validation accuracy and loss curves, classification report, confusion matrix, accuracy, precision, recall, F1-score, AUC, fit check, and training and testing time (test accuracy 0.7388, recall 0.9974, F1 0.8268, AUC 0.9358).
+- **Written observations** on early stopping, the unstable validation curve in the first epochs, the errors (162 false alarms, 1 missed case), the validation-test gap and the comparison with the pretrained models.
+
+  
 ## 4. Methodology
 
 **Data split (Submissions 2 and 3).** The 16-image original validation folder is too small, so a **stratified 15% of the training folder** is used for validation. The original **test folder (624 images) is used only for the final evaluation**. The resulting split is 4,433 training, 783 validation and 624 test images.
