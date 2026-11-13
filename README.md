@@ -106,6 +106,19 @@ Notebook: `CNN_Group09_Submission3.ipynb`
   
 ## 4. Methodology
 
+**Design decisions from Submission 1.** The dataset analysis and the related-work review (Submission 1) shaped the methodology of the later submissions:
+
+| Finding in Submission 1 | Decision in Submissions 2 and 3 |
+|---|---|
+| Training set is imbalanced (2.89 : 1) | Balanced class weights; recall, precision, F1 and AUC reported in addition to accuracy |
+| Original validation folder has only 16 images | Stratified 15% validation split taken from the training folder; test folder used only for the final evaluation |
+| Images have very different sizes (384 to 2,916 px wide) | All images resized to 224 x 224 |
+| Mixed grayscale (5,573) and RGB (283) images | All images decoded with 3 channels (grayscale replicated to RGB) |
+| Related work uses transfer learning and from-scratch CNNs with augmentation | Three pretrained CNNs with and without fine-tuning (Submission 2) and a custom CNN from scratch (Submission 3), all with augmentation |
+
+
+
+
 **Data split (Submissions 2 and 3).** The 16-image original validation folder is too small, so a **stratified 15% of the training folder** is used for validation. The original **test folder (624 images) is used only for the final evaluation**. The resulting split is 4,433 training, 783 validation and 624 test images.
 
 **Preprocessing and augmentation.** Images are decoded with 3 channels and resized to 224 x 224. Augmentation (training only): horizontal flip, rotation (about ±11 degrees), zoom (10%), translation (5%) and brightness change (10%). Pretrained models use their own `preprocess_input`; the custom CNN scales pixels to [0, 1].
