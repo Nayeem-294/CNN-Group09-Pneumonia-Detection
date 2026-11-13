@@ -131,7 +131,7 @@ All pretrained models ran 40 epochs per mode. Training times were measured on a 
 | 1 | Dataset information, EDA, related work | Done |
 | 2 | DenseNet121, ResNet50, MobileNetV2 (with and without fine-tuning) | Done |
 | 3 | Custom CNN from scratch | Done |
-| 4 | Custom CNN with an attention module | In progress |
+
 
 ## References
 
