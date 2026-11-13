@@ -8,7 +8,7 @@
 ![Status](https://img.shields.io/badge/Status-Submissions%201--3%20complete-brightgreen)
 
 **CSE366 - Artificial Intelligence, Section 1 | East West University**
-**Group 09 | CNN Course Project**
+**Group 09 | CNN  Project**
 Submitted to **Dr. Tania Sultana**, Assistant Professor, Dept. of CSE
 
 This repository contains the notebooks of our course project on automatic detection of pneumonia from chest X-ray images. We analyse the dataset, review related work, apply three ImageNet-pretrained CNNs with and without fine-tuning, and design a custom CNN that is trained from scratch.
